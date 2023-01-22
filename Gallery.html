@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Stanford Gallery</title>
+	<style>
+		#caption {
+			padding: 10px;
+			box-sizing: border-box;
+			color: white;
+			font-size: 14pt;
+			font-family: sans-serif;
+			background-color: #008800;
+			opacity: 0.5;
+
+			position: absolute;
+			bottom: 0px;
+			width: 100%;
+
+		}
+
+		#photoSection
+		{
+			position: absolute;
+			width: 800px;
+			height: 600px;
+		}
+
+		#backwardOverlay
+		{
+			position: absolute;
+			left:0px;
+			top: 0px;
+			opacity: 50%;
+			/* background-color: blue; */
+			height: 600px;
+			width: 400px;
+			/* z-index: 1; */
+		}
+		#forwardOverlay
+		{
+			position: absolute;
+
+			right: 0px;
+			top: 0px;
+			opacity: 50%;
+			/* background-color: red; */
+			height: 600px;
+			width: 400px;
+			/* z-index: 1; */
+
+
+
+		}
+
+	</style>
+</head>
+
+<body>
+	<div id="photoSection">
+		<img id='photo' src='memchu.jpg' alt='Current Slideshow Photo'/>
+		<div id="caption">
+			Stanford Memorial Church - the church used to have an 80' bell tower, which fell in the 1906 earthquake.
+		</div>
+		<div id="forwardOverlay"></div>
+		<div id="backwardOverlay"></div>
+	</div>
+
+	<script>
+		"use strict";
+
+		var photoArray = [
+			{
+				filename: "memchu.jpg",
+				caption: "Stanford Memorial Church - the church used to have an 80' bell tower, which fell in the 1906 earthquake."
+			},
+			{
+				filename: "quad.jpg",
+				caption: "The Stanford Quad"
+			},
+			{
+				filename: "hoop.jpg",
+				caption: "The <i>Red Hoop Fountain</i> with Green Library in the background."
+			},
+			{
+				filename: "memorial-court.jpg",
+				caption: "Memorial Court (in the front of the Quad) with Rodin's <i>Burghers of Calais</i> statues."
+			},
+			{
+				filename: "gates.jpg",
+				caption: "The Gates Building - home of Stanford Computer Science."
+			},
+			{
+				filename: "stone-river.jpg",
+				caption: "The Stone River statue near the Cantor Arts Center (Stanford's own art museum)."
+			},
+		];
+
+		var photo = document.getElementById("photo");
+		var photoBox = document.getElementById("photoSection");
+		var caption = document.getElementById("caption");
+
+		var xoriginCenter = ((window.innerWidth) / 2) - 400; 
+		var yoriginCenter = ((window.innerHeight) / 2) - 300; 
+
+		photoBox.style.left = xoriginCenter + "px"
+		photoBox.style.top = yoriginCenter + "px";
+
+		var leftBox = document.getElementById("backwardOverlay");
+		var rightBox = document.getElementById("forwardOverlay");
+
+		var photoCounter = 0;
+
+
+		function handleResize()
+		{
+			var xnewCenter = ((window.innerWidth) / 2) - 400; 
+			var ynewCenter = ((window.innerHeight) / 2) - 300; 
+			photoBox.style.left = xnewCenter + "px"
+			photoBox.style.top = ynewCenter + "px";
+		}
+
+		function leftClick()
+		{
+			photoCounter--;
+			if (photoCounter < 0)
+			{
+				photoCounter = 5;
+			}
+			photo.src = photoArray[photoCounter].filename;
+			caption.innerHTML = photoArray[photoCounter].caption;
+		}
+
+		function rightClick()
+		{
+			photoCounter++;
+			if (photoCounter > 5)
+			{
+				photoCounter = 0;
+			}
+			photo.src = photoArray[photoCounter].filename;
+			caption.innerHTML = photoArray[photoCounter].caption;
+		}
+
+		window.addEventListener("resize",handleResize);
+		leftBox.addEventListener("click", leftClick);
+		rightBox.addEventListener("click", rightClick);
+
+
+
+
+	</script>
+</body>
+
+</html>
